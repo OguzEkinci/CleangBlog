@@ -1,0 +1,27 @@
+{
+  "name": "cleanblog",
+  "version": "1.0.0",
+  "description": "The website like a Blogger. Backend created with NodeJs.\r https://app.patika.dev/OguzEkinci",
+  "main": "App.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OguzEkinci/CleangBlog.git"
+  },
+  "author": "ogosizm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OguzEkinci/CleangBlog/issues"
+  },
+  "homepage": "https://github.com/OguzEkinci/CleangBlog#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
