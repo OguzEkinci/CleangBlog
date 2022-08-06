@@ -1,10 +1,14 @@
 import express from 'express'
-import ejs from 'ejs'
 import mongoose from 'mongoose'
-import Post from './models/AddPost.js'
+import MethodOverride from 'method-override'
+
+import postController from './Controllers/postController.js'
+import pageController from './Controllers/pageController.js'
+
 const app = express()
 const port = 3000
 
+//DB
 mongoose.connect('mongodb://localhost/cleanblog-test-db')
 
 //TEMPLATE ENGINE
@@ -12,38 +16,23 @@ app.set("view engine", "ejs")
 
 //MIDDLEWARES
 app.use(express.static('public'))
-app.use(express.urlencoded({extended: true})) //body parser
+app.use(express.urlencoded({ extended: true })) //body parser
 app.use(express.json())
-
+app.use(MethodOverride('_method', {
+    methods: ['POST', 'GET']
+}))
 //ROUTES
-app.get('/',async (req,res) => {
-    const posts = await Post.find({})
-    res.render('index', {posts})
-})
+app.get('/', postController.getAllPosts)
+app.get('/posts/:id', postController.getPost)
+app.post('/add_post', postController.addPost );
+app.put('/posts/:id', postController.updatePost)
+app.delete('/posts/:id', postController.deletePost )
 
-app.get('/posts/:id',async (req,res) => {
-    const post = await Post.findById(req.params.id)
-    res.render('post', {post})
-})
+app.get('/about', pageController.getAboutPage)
+app.get('/add_post', pageController.getAddPostPage)
+app.get('/post', pageController.getPostPAge);
+app.get('/posts/edit/:id', pageController.getPostEditPage);
 
-app.get('/about',(req,res) => {
-    res.render('about')
-})
-
-app.get('/add_post',(req,res) => {
-    res.render('add_post')
-})
-
-app.get('/post', (req, res) => {
-    res.render('post');
-  });
-
-app.post('/add_post', async (req, res) => {
-    await Post.create(req.body)
-    res.redirect('/')
-  });
-
-  
 app.listen(port, () => {
     console.log(`Sunucu ${port} portunda başlatıldı`)
 })
